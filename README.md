@@ -1,17 +1,23 @@
 # 🦜️🖼️ LangFrame
 
-LangFrame is a framework for building LLM-powered web applications.
-It guides you to build a production-ready LLM apps 
+LangFrame is a framework for developing production-grade LLM applications.
+
+Creating your first LLM application by copy-pasting examples you found on Internet is easy,
+however, running it for production is a different story.
+You need proper authentication/authorizations, database migrations,
+performance optimization, scaling architecture, secure codebase,
+maintenable code structure, async and cron workers, observability, telemetry,
+dependency management, and so on.
+
+LangFrame guides you to build such application like Ruby on Rails.
 
 ## Concept
 
+- Build a web application that provides APIs for LLM features.
+- Build both [chains](https://docs.langchain.com/docs/components/agents/) and [agents](https://docs.langchain.com/docs/components/agents/).
 - Convention over Configuration
 - DRY
-- Web server provides APIs ... FastAPI.
-- Worker
-- Fast API for backend webserver.
-- Celery for workers.
-- Web Framework for developing LLM applications
+- Upgrade your application as the dependencies grow.
 
 ## High-level components
 
