@@ -22,6 +22,8 @@ LangFrame guides you to build such application like Ruby on Rails.
 - Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [Chain](https://docs.langchain.com/docs/components/agents/) or [Agent](https://docs.langchain.com/docs/components/agents/) interface for a model, helping developers get started quickly.
 - Active Support: Rails includes a comprehensive library called Active Support, which provides a wide range of utility classes and methods to simplify common programming tasks.
 - Testing and evaluations: It encourages and makes it easy to write integration tests for your chains and agents, promoting test-driven development (TDD).
+- Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
+- Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
 
 ## High-level components
 
