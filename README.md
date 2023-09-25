@@ -4,30 +4,28 @@
 
 LangFrame is an open-source web application framework for production-grade LLM applications.
 
-Creating your first LLM application by copy-pasting examples you found on Internet is easy,
-however, running it for production is a different story.
-You need proper authentication/authorizations, database migrations,
-performance optimization, scaling architecture, secure codebase,
-maintenable code structure, async and cron workers, observability, telemetry,
-dependency management, and so on.
+Creating your first LLM application by forking an example project found on Internet is easy,
+however, running it on production requires a lot more effort.
+For example, you need proper authentications, authorizations, database migrations,
+performance optimization, scalable architecture, secure codebase,
+maintainable codebase, async workers, cron workers, observability, telemetry,
+dependency management, A/B testing, feature flags, and so on.
 
-LangFrame guides you to build such application like Ruby on Rails.
+LangFrame guides you to build such application as an extention to the [LangChain](https://github.com/langchain-ai/langchain).
 
 ## Key features and Concept
 
-- Convention over Configuration (CoC) ... It provides sensible defaults and conventions for naming and structuring code and database tables. Developers can save time by not needing to specify every detail, as It makes assumptions based on these conventions.
-- Don't Repeat Yourself (DRY) ... It encourages the DRY principle, aiming to minimize redundancy in code by promoting code reuse and modularity.
----- ActiveRecord: Rails includes an Object-Relational Mapping (ORM) library called ActiveRecord. It simplifies database interaction by representing database tables as Ruby objects and allowing developers to manipulate records using Ruby methods.
-- RESTful Routing: It promotes the use of RESTful (Representational State Transfer) routes, which correspond to the standard HTTP methods (GET, POST, PUT, DELETE) and make it easier to build RESTful web applications.
-- Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [Chain](https://docs.langchain.com/docs/components/agents/) or [Agent](https://docs.langchain.com/docs/components/agents/) interface for a model, helping developers get started quickly.
-- Active Support: Rails includes a comprehensive library called Active Support, which provides a wide range of utility classes and methods to simplify common programming tasks.
+- Convention over Configuration (CoC) ... It provides sensible defaults and conventions for naming and structuring code and database tables.
+- Don't Repeat Yourself (DRY) ... Aiming to minimize redundancy in code by promoting code reuse and modularity.
+- RESTful Routing: It promotes the use of RESTful (Representational State Transfer) routes, which correspond to the standard HTTP methods (GET, POST, PUT, DELETE) and make it easier to interact with [chains](https://docs.langchain.com/docs/components/chains/) and [agents](https://docs.langchain.com/docs/components/agents/).
+- Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [chain](https://docs.langchain.com/docs/components/agents/) or [agent](https://docs.langchain.com/docs/components/agents/) interface, helping developers get started quickly.
 - Testing and evaluations: It encourages and makes it easy to write integration tests for your chains and agents, promoting test-driven development (TDD).
 - Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
 - Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
 
 ## High-level components
 
-### Agents and Controllers
+### Chains and Agents interface
 
 Agents running on your server. It accepts requests from clients and autonomous agents.
 
@@ -57,7 +55,7 @@ Database for
 vectors/      ... Vector stores
 ```
 
-### Tasks, Pipelines and Chains
+### Tasks and pipelines
 
 Pipelines represent end-to-end LLM process chain.
 A pipeline could consist of 
