@@ -1,8 +1,8 @@
 # This repo is still DRAFT
 
-# 🦜️🖼️ LangFrame
+# 🦜️🖼️ LangApp
 
-LangFrame is an open-source web application framework for production-grade LLM applications.
+LangApp is an open-source web application framework for production-grade LLM applications.
 
 Creating your first LLM application by forking an example project found on Internet is easy,
 however, running it on production requires a lot more effort.
@@ -11,21 +11,21 @@ performance optimization, scalable architecture, secure codebase,
 maintainable codebase, async workers, cron workers, observability, telemetry,
 dependency management, A/B testing, feature flags, and so on.
 
-LangFrame guides you to build such application as an extention to the [LangChain](https://github.com/langchain-ai/langchain).
-
-## Key features and Concept
-
-- Convention over Configuration (CoC) ... It provides sensible defaults and conventions for naming and structuring code and database tables.
-- Don't Repeat Yourself (DRY) ... Aiming to minimize redundancy in code by promoting code reuse and modularity.
-- RESTful Routing: It promotes the use of RESTful (Representational State Transfer) routes, which correspond to the standard HTTP methods (GET, POST, PUT, DELETE) and make it easier to interact with [chains](https://docs.langchain.com/docs/components/chains/) and [agents](https://docs.langchain.com/docs/components/agents/).
-- Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [chain](https://docs.langchain.com/docs/components/agents/) or [agent](https://docs.langchain.com/docs/components/agents/) interface, helping developers get started quickly.
-- Testing and evaluations: It encourages and makes it easy to write integration tests for your chains and agents, promoting test-driven development (TDD).
-- Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
-- Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
+LangApp guides you to build such application with the harness of [LangChain](https://github.com/langchain-ai/langchain) and [LangSmith](https://docs.smith.langchain.com/).
 
 ## High-level components
 
-### Chains and Agents interface
+### Chain Interface
+
+Chains are [chains](https://docs.langchain.com/docs/components/chains/)
+
+>>>
+Chains is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
+
+The most commonly used type of chain is an LLMChain, which combines a PromptTemplate, a Model, and Guardrails to take user input, format it accordingly, pass it to the model and get a response, and then validate and fix (if necessary) the model output.
+>>>
+
+### Agents interface
 
 Agents running on your server. It accepts requests from clients and autonomous agents.
 
@@ -46,13 +46,13 @@ agents/
     pr-reviewer.py
 ```
 
-### Database and Vector Stores
+### Data-aware: Database and Vector Stores
 
 Database for 
 
 ```
 # Vector stores
-vectors/      ... Vector stores
+db/      ... Vector stores
 ```
 
 ### Tasks and pipelines
@@ -66,8 +66,21 @@ Example:
 pipelines/
 ```
 
-### Authentications/Authorizations
+### Authentications and Authorizations
 
+### Testing
+
+Test data should be collected in the system, and it should be used to test the system.
+
+## Principles
+
+- Convention over Configuration (CoC) ... It provides sensible defaults and conventions for naming and structuring code and database tables.
+- Don't Repeat Yourself (DRY) ... Aiming to minimize redundancy in code by promoting code reuse and modularity.
+- RESTful Routing: It promotes the use of RESTful (Representational State Transfer) routes, which correspond to the standard HTTP methods (GET, POST, PUT, DELETE) and make it easier to interact with [chains](https://docs.langchain.com/docs/components/chains/) and [agents](https://docs.langchain.com/docs/components/agents/).
+- Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [chain](https://docs.langchain.com/docs/components/agents/) or [agent](https://docs.langchain.com/docs/components/agents/) interface, helping developers get started quickly.
+- Testing and evaluations: It encourages and makes it easy to write integration tests for your chains and agents, promoting test-driven development (TDD).
+- Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
+- Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
 
 ## Key Dependencies
 
