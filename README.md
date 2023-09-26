@@ -15,62 +15,31 @@ LangApp guides you to build such application with the harness of [LangChain](htt
 
 ## High-level components
 
-### Chain Interface
+### Chain Interfaces
 
-Chains are [chains](https://docs.langchain.com/docs/components/chains/)
+[Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
+Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
 
->>>
-Chains is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
-
-The most commonly used type of chain is an LLMChain, which combines a PromptTemplate, a Model, and Guardrails to take user input, format it accordingly, pass it to the model and get a response, and then validate and fix (if necessary) the model output.
->>>
-
-### Agents interface
-
-Agents running on your server. It accepts requests from clients and autonomous agents.
-
-- Agent runs on a process.
-- Agent can receive a request to perform certain tasks, such as executing a [LLM pipeline](#pipelines-and-chains).
-- Agent can perform a task 
-
-To clarify, this framework refers the chains as agents too. As technically an agent is just executing a LLM chain and return a result (like RAG app).
-As a future proof approach, we generalize the 
-
-Agents are exposed via APIs.
-
-Example:
+Path formats:
 
 ```
-agents/
-    question-answering.py
-    pr-reviewer.py
+POST /api/v1/chains/<name> ... Execute a chain
+POST /api/v1/chains/<name>/feedback ... Post feedback for the chain
 ```
 
-### Data-aware: Database and Vector Stores
+[“Agents”](https://docs.langchain.com/docs/components/agents/) are essentially subclasses of the chains, therefore it's provided by the same interface.
 
-Database for 
+For more information, see [Developments](docs/developments.md).
 
-```
-# Vector stores
-db/      ... Vector stores
-```
+### (TBD) Autonomous Agent Interfaces
 
-### Tasks and pipelines
+[Autonomous Agents](https://js.langchain.com/docs/use_cases/autonomous_agents/) are agents that designed to be more long running. You give them one or multiple long term goals, and they independently execute towards those goals. The applications combine tool usage and long term memory.
 
-Pipelines represent end-to-end LLM process chain.
-A pipeline could consist of 
+## How to start
 
-Example:
+Here is how to start a new project with LangApp, and run it on docker-compose.
 
-```
-pipelines/
-```
-
-### Authentications and Authorizations
-
-### Testing
-
-Test data should be collected in the system, and it should be used to test the system.
+For more information, see [Deployment doc](docs/deployments.md).
 
 ## Principles
 
@@ -88,8 +57,16 @@ Test data should be collected in the system, and it should be used to test the s
 - [LangChain](https://github.com/langchain-ai/langchain): Building applications with LLMs through composability.
 - [LangSmith](https://github.com/langchain-ai/langsmith-sdk): Observability for chains and agents.
 - [FastAPI](https://github.com/tiangolo/fastapi): FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-- [Ragas](https://github.com/explodinggradients/ragas): Evaluate your Retrieval Augmented Generation (RAG) pipelines.
 - (TBD) [Sqlalchemy](https://www.sqlalchemy.org/): The Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
 - (TBD) [Alembic](https://alembic.sqlalchemy.org/en/latest/): Alembic is a lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python.
 - (TBD) [Celery](https://github.com/celery/celery): Distribute work across threads or machines, a.k.a. workers.
 - (TBD) [Redis](https://github.com/redis/redis): Caching and manage job queues.
+
+## Further details
+
+- [Developments](docs/developments.md)
+- [Deployments](docs/deployments.md)
+- [Observability](docs/observability.md)
+- [Evaluations](docs/evaluations.md)
+- [Contributions](docs/contributing.md)
+- [License](LICENSE)
