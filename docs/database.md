@@ -32,7 +32,7 @@ ingestions/
 
 Index conventions: `index_<feature>_<major>_<minor>_<build>`
 
-## Migration version tracking
+## Index versioning
 
 This can happen in PostgreSQL.
 
@@ -49,10 +49,10 @@ To do so, you need to create a new index and migrate the traffic from the old in
 
 Example:
 
-- Day 1: Chain A depends on index_documents_0_0_1.
-- Day 2: The system creates a new index from the up-to-date documents. This will be index_documents_0_0_2.
-- Day 3: Chain A switches to index_documents_0_0_2.
-- Day 4: The system cleans up index_documents_0_0_1.
+- Day 1: Chain `question_answering_0_0_1` depends on `index_documents_0_0_1`.
+- Day 2: The system creates a new index from the up-to-date documents. This will be `index_documents_0_0_2`.
+- Day 3: Chain `question_answering_0_0_1` switches to `index_documents_0_0_2`. Chain `question_answering_0_0_2` is deployed to production.
+- Day 4: The system cleans up `index_documents_0_0_1`.
 
 NOTE: The versioning follows [Semantic Versioning](../docs/glossary.md#semantic-versioning).
 
