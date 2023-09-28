@@ -13,9 +13,9 @@ dependency management, A/B testing, feature flags, and so on.
 
 LangApp guides you to build such application with the harness of [LangChain](https://github.com/langchain-ai/langchain) and [LangSmith](https://docs.smith.langchain.com/).
 
-## High-level components
+## Key features
 
-### Chain Interfaces
+### Pipeline Interfaces
 
 [Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
 Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
@@ -23,17 +23,30 @@ Applications provide the interfaces for interacting with [chains](https://docs.l
 Path formats:
 
 ```
-POST /api/v1/chains/<name> ... Execute a chain
-POST /api/v1/chains/<name>/feedback ... Post feedback for the chain
+POST /api/v1/pipelines/<name> ... Execute a chain
+POST /api/v1/pipelines/<name>/feedback ... Post feedback for the chain
 ```
 
 [“Agents”](https://docs.langchain.com/docs/components/agents/) are essentially subclasses of the chains, therefore it's provided by the same interface.
 
 For more information, see [Developments](docs/developments.md).
 
-### (TBD) Autonomous Agent Interfaces
+### Versioning and composability
 
-[Autonomous Agents](https://js.langchain.com/docs/use_cases/autonomous_agents/) are agents that designed to be more long running. You give them one or multiple long term goals, and they independently execute towards those goals. The applications combine tool usage and long term memory.
+Pipelines, which is the definition of data flow, are versioned and immutable.
+LangApp compiles the code into a docker image and tag it with a version number.
+You can later strategies how these versions should be handled on production, such as,
+deploying to the latest version, canary deployment, A/B testing, etc.
+
+Pipelines are defined in the YAML file to make it composable and reusable.
+
+### Kubernetes
+
+LangApp is designed for Kubernetes as the production platform.
+
+![langapp](docs/img/LangApp.png)
+
+[source](https://docs.google.com/drawings/d/1ushZBAtNDY6EvABnaeKfAA0WWrCmXl_qMfTjGusjS3k/edit?usp=sharing)
 
 ## How to start
 

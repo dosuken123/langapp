@@ -38,3 +38,11 @@ db/      ... Vector stores
 ```
 
 ### Authentications and Authorizations
+
+### Feedback
+
+Path formats:
+
+```
+POST /api/v1/feedback ... Feedback to the trace ID
+```
