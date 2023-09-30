@@ -14,42 +14,13 @@ dependency management, A/B testing, feature flags, and so on.
 
 LangApp guides you to build such application with closely following [LangChain](https://github.com/langchain-ai/langchain) as the abstraction guideline.
 
-## Key features
-
-### Pipeline APIs
-
-[Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
-Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
-
-Path formats:
-
-```
-POST /api/v1/pipelines/<name> ... Execute a chain
-POST /api/v1/pipelines/<name>/feedback ... Post feedback for the chain
-```
-
-[“Agents”](https://docs.langchain.com/docs/components/agents/) are essentially subclasses of the chains, therefore it's provided by the same interface.
-
-For more information, see [Developments](docs/developments.md).
-
-### Versioning and composability
-
-Pipelines, which is the definition of data flow, are versioned and immutable.
-LangApp compiles the code into a docker image and tag it with a version number.
-You can later strategies how these versions should be handled on production, such as,
-deploying to the latest version, canary deployment, A/B testing, etc.
-
-Pipelines are defined in the YAML file to make it composable and reusable.
-
-### Kubernetes
-
-LangApp is designed for Kubernetes as the production platform.
+## Overview
 
 ![langapp](docs/img/LangApp.png)
 
 [source](https://docs.google.com/drawings/d/1ushZBAtNDY6EvABnaeKfAA0WWrCmXl_qMfTjGusjS3k/edit?usp=sharing)
 
-## Getting Started
+## How to get started
 
 See [Getting Started](docs/getting_started.md).
 

@@ -107,3 +107,28 @@ steps:
       - name: answer
         type: text
 ```
+
+### Pipeline APIs
+
+[Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
+Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
+
+Path formats:
+
+```
+POST /api/v1/pipelines/<name> ... Execute a chain
+POST /api/v1/pipelines/<name>/feedback ... Post feedback for the chain
+```
+
+[“Agents”](https://docs.langchain.com/docs/components/agents/) are essentially subclasses of the chains, therefore it's provided by the same interface.
+
+For more information, see [Developments](docs/developments.md).
+
+### Versioning and composability
+
+Pipelines, which is the definition of data flow, are versioned and immutable.
+LangApp compiles the code into a docker image and tag it with a version number.
+You can later strategies how these versions should be handled on production, such as,
+deploying to the latest version, canary deployment, A/B testing, etc.
+
+Pipelines are defined in the YAML file to make it composable and reusable.
