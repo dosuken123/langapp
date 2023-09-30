@@ -3,19 +3,20 @@
 # 🦜️🖼️ LangApp
 
 LangApp is an open-source web application framework for production-grade LLM applications.
+You can get your idea into production seamlessly.
 
-Creating your first LLM application by forking an example project found on Internet is easy,
-however, running it on production requires a lot more effort.
-For example, you need proper authentications, authorizations, database migrations,
+Creating your first LLM application by starting from an example project is easy.
+However, running it on production requires a lot more effort,
+for example, you need proper authentications, authorizations, database migrations,
 performance optimization, scalable architecture, secure codebase,
 maintainable codebase, async workers, cron workers, observability, telemetry,
 dependency management, A/B testing, feature flags, and so on.
 
-LangApp guides you to build such application with the harness of [LangChain](https://github.com/langchain-ai/langchain) and [LangSmith](https://docs.smith.langchain.com/).
+LangApp guides you to build such application with closely following [LangChain](https://github.com/langchain-ai/langchain) as the abstraction guideline.
 
 ## Key features
 
-### Pipeline Interfaces
+### Pipeline APIs
 
 [Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
 Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
@@ -48,11 +49,9 @@ LangApp is designed for Kubernetes as the production platform.
 
 [source](https://docs.google.com/drawings/d/1ushZBAtNDY6EvABnaeKfAA0WWrCmXl_qMfTjGusjS3k/edit?usp=sharing)
 
-## How to start
+## Getting Started
 
-Here is how to start a new project with LangApp, and run it on docker-compose.
-
-For more information, see [Deployment doc](docs/deployments.md).
+See [Getting Started](docs/getting_started.md).
 
 ## Principles
 
@@ -64,21 +63,11 @@ For more information, see [Deployment doc](docs/deployments.md).
 - Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
 - Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
 
-## Key Dependencies
-
-- Python 3.7+
-- [LangChain](https://github.com/langchain-ai/langchain): Building applications with LLMs through composability.
-- [LangSmith](https://github.com/langchain-ai/langsmith-sdk): Observability for chains and agents.
-- [FastAPI](https://github.com/tiangolo/fastapi): FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-- (TBD) [Sqlalchemy](https://www.sqlalchemy.org/): The Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
-- (TBD) [Alembic](https://alembic.sqlalchemy.org/en/latest/): Alembic is a lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python.
-- (TBD) [Celery](https://github.com/celery/celery): Distribute work across threads or machines, a.k.a. workers.
-- (TBD) [Redis](https://github.com/redis/redis): Caching and manage job queues.
-
 ## Further details
 
 - [Developments](docs/developments.md)
 - [Deployments](docs/deployments.md)
+- [Dependencies](docs/dependencies.md)
 - [Observability](docs/observability.md)
 - [Evaluations](docs/evaluations.md)
 - [Contributions](docs/contributing.md)
