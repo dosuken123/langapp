@@ -132,3 +132,18 @@ You can later strategies how these versions should be handled on production, suc
 deploying to the latest version, canary deployment, A/B testing, etc.
 
 Pipelines are defined in the YAML file to make it composable and reusable.
+
+### Import Jupyter Notebook to Pipeline
+
+You can import [Jupyter notebook](https://jupyter.org/) into a pipeline file.
+This is useful when you already have a working demo in [Google Colab](https://colab.research.google.com/),
+and want to deploy it to production.
+
+### Export Pipeline to Jupyter Notebook
+
+You can export a pipeline to a jupyter notebook.
+This is useful when you want to go back to the experimental and debugging phase to improve the pipeline.
+For example, testing different LLMs, prompts, document splitting, chunking, annotations,
+for finding a potential optimization for your pipelines.
+
+Later, you can [import the notebook back to the pipeline file](#import-jupyter-notebook-to-pipeline) again.
