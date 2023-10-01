@@ -16,9 +16,15 @@ LangApp guides you to build such application with closely following [LangChain](
 
 ## Overview
 
+Here is the scope of the LangApp framework:
+
 ![langapp](docs/img/LangApp.png)
 
 [source](https://docs.google.com/drawings/d/1ushZBAtNDY6EvABnaeKfAA0WWrCmXl_qMfTjGusjS3k/edit?usp=sharing)
+
+While it's covering broad areas, LangApp depends on the existing frameworks and libraries instead of implementing them from scratch.
+This allows us to focus on the core features, such as providing [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to developers.
+If you already have a working demo on Google Colab, you can easily deploy it to production with minimal effort.
 
 ## How to get started
 
