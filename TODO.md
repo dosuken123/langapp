@@ -1,0 +1,5 @@
+- [ ] Walkthrough LangChain abstractions once again
+    - [ ] https://docs.langchain.com/docs/
+    - [ ] https://python.langchain.com
+- [ ] Simplify SF6-QA-Chat by langapp
+    - [ ] Pipeline interface and generator
