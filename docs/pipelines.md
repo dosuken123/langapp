@@ -147,3 +147,86 @@ For example, testing different LLMs, prompts, document splitting, chunking, anno
 for finding a potential optimization for your pipelines.
 
 Later, you can [import the notebook back to the pipeline file](#import-jupyter-notebook-to-pipeline) again.
+
+### BasePipeline
+
+```python
+class BasePipeline:
+    def __init__(self):
+        self.steps = []
+    
+    def step(self, func):
+        self.steps.append(func)
+        return func
+    
+    def execute(self, inputs):
+        outputs = inputs
+        for step in self.steps:
+            outputs = step(outputs)
+        return outputs
+```
+
+### Customize a pipeline
+
+```python
+class MyPipeline(BasePipeline):
+    @pipeline.step
+    def load_document(inputs):
+        # Your business logic
+        return outputs
+
+    @pipeline.step
+    def parse_document(inputs):
+        # Your business logic
+        return outputs
+```
+
+### Execute a pipeline
+
+Execute a single pipeline:
+
+```python
+pipeline = MyPipeline.new(...)
+result = pipeline.execute(inputs)
+```
+
+### Downstream pipeline
+
+You can pass the output generated in the upstream pipeline to a downstream pipeline and return the final result to the client.
+This is useful if you want to run multiple pipelines at once and combine the results or perform A/B testing for monitoring the difference of results.
+
+Here is an example:
+
+```python
+# Create pipeline instances
+pipeline_a = MyPipelineA.new(...)
+pipeline_b = MyPipelineB.new(...)
+pipeline_c = MyPipelineC.new(...)
+pipeline_d = MyPipelineD.new(...)
+
+# Pipeline-A is the upstream pipeline and sets Pipeline-B and Pipeline-C as the downstream pipelines.
+pipeline_a.set_downstream_pipeline(pipeline_b)
+pipeline_a.set_downstream_pipeline(pipeline_c)
+
+# Pipeline-D is the finalize pipeline and accumulates the results from Pipeline-B and Pipeline-C.
+pipeline_b.set_downstream_pipeline(pipeline_d, async=true)
+pipeline_c.set_downstream_pipeline(pipeline_d, async=true)
+
+# 1. Executes the Pipeline-A
+# 1. Executes the Pipeline-B and Pipeline-C in parallel
+# 1. Waits for both Pipeline-B and Pipeline-C has finished, and pass the results to the Pipeline-D
+pipeline_a.execute(inputs)
+```
+
+### Asynchronous pipeline
+
+You can execute a pipeline asynchronously in a case it takes a long time to finish.
+Once the pipeline is enqueued, background worker executes the 
+
+To illustrate:
+
+1. A client and server establishes [websocket](https://en.wikipedia.org/wiki/WebSocket) for bi-directional connection.
+1. A client requestes to LangApp to execute a pipeline. LangApp enqueues the execution request and return "enqueued" response to the client.
+1. Once the background execution is finished, LangApp posts the result to the client.
+
+Even if the websocket is disconnected, the result is persisted in the database, therefore clients can fetch the response later.
