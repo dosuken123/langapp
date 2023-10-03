@@ -35,11 +35,12 @@ See [Getting Started](docs/getting_started.md).
 
 - Convention over Configuration (CoC) ... It provides sensible defaults and conventions for naming and structuring code and database tables.
 - Don't Repeat Yourself (DRY) ... Aiming to minimize redundancy in code by promoting code reuse and modularity.
+- Secure, Performant and Scalable (SPaS) ... Develop secure, performant and scalable applications.
+- Don't get left behind (DGLB) ... Keep upgrading your app by adopting the latest best practice provided by the community. Forking an example repository could quickly get diverged and outdated therefore you would struggle to catch up the others.
 - RESTful Routing: It promotes the use of RESTful (Representational State Transfer) routes, which correspond to the standard HTTP methods (GET, POST, PUT, DELETE) and make it easier to interact with [pipelines](docs/pipelines.md).
 - Scaffolding: It provides a command called "scaffold" that generates boilerplate code for creating a basic [pipeline](docs/pipelines.md) interface, helping developers get started quickly.
 - Testing and evaluations: It encourages and makes it easy to write integration tests for your [pipeliness](docs/pipelines.md), promoting test-driven development (TDD).
-- Auto Scale: When a request volume increases, the chain/agent instances will automatically scale up.
-- Cost efficient: When a request volume decreases, the chain/agent instances will automatically scale down.
+- Auto Scale and Cost efficient: When a request volume increases, the chain/agent instances will automatically scale up. When a request volume decreases, the chain/agent instances will automatically scale down.
 
 ## Further details
 
