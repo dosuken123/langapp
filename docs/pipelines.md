@@ -1,4 +1,4 @@
-# Chains
+# Pipelines
 
 Pipelines are definition of the data process flow. In LangChain terms, [Chains](https://docs.langchain.com/docs/components/chains/) and [Agents](https://docs.langchain.com/docs/components/agents/) fall into this structure.
 
