@@ -346,34 +346,6 @@ data/
 
 You can add a arbitrary/user-defined artifact to the pipeline or step, which is useful to store business logic specific information.
 
-```py
-# Create a pipeline instance
-pipeline = MyPipeline()
-
-# Run a pipeline
-pipeline.run({"query": "How are you?"})
-
-# Retrieve artifact
-artifacts = pipeline.artifacts["langapp"]
-print(artifact["id"])              # ID of the pipeline.
-print(artifact["duration"])        # Duration of the pipeline
-print(artifact["input"])           # Input of the pipeline
-print(artifact["output"])          # Output of the pipeline
-print(artifact["started_at"])      # When the pipeline started
-print(artifact["ended_at"])        # When the pipeline ended
-
-# Retrieve artifact per step. It's sorted by execution order.
-for step in pipeline.steps:
-  artifacts = step.artifacts["langapp"]
-  print(artifacts["id"])              # ID of the step.
-  print(artifacts["name"])            # Name of the step
-  print(artifacts["duration"])        # Duration of the step
-  print(artifacts["input"])           # Input of the step
-  print(artifacts["output"])          # Output of the step
-  print(artifacts["started_at"])      # When the step started
-  print(artifacts["ended_at"])        # When the step ended
-```
-
 Example of adding an artifact in a step:
 
 ```python
