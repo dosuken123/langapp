@@ -1,6 +1,9 @@
 # Pipelines
 
-Pipelines are definition of the data process flow. In LangChain terms, [Chains](https://docs.langchain.com/docs/components/chains/) and [Agents](https://docs.langchain.com/docs/components/agents/) fall into this structure.
+Pipeline is a sequence of data processing steps that receives input and produce artifact as output.
+The artifacts can be used in downstream pipelines for complicated scenario.
+
+In LangChain, [Chains](https://docs.langchain.com/docs/components/chains/) and [Agents](https://docs.langchain.com/docs/components/agents/) fall into this abstraction.
 
 Pipelines are composable and reusable. It supports DAG (Directed Acyclic Graph) style composability to let you
 concatenate sequence of data flow across the system.
@@ -69,9 +72,16 @@ Chain versioning follows [Semantic Versioning](../docs/glossary.md#semantic-vers
 Each pipeline is compiled into a docker image to ensure it's immutability.
 This way we can A/B testing different pipelines and roll back to the previous version easily.
 
-## Test chains locally
+## Test pipelines locally
 
-To test a chain, you can execute `langapp execute chain --version <version>`.
+```shell
+# Run a pipeline agasint a single input
+langapp run pipeline <pipeline-name> --input="How are you?"
+
+# Run a pipeline against multiple dataset:
+# Pipelines run in parallel by default.
+langapp run pipeline <pipeline-name> --dataset=<dataset-path> 
+```
 
 ## Agents
 
@@ -108,7 +118,7 @@ steps:
         type: text
 ```
 
-### Pipeline APIs
+## Pipeline APIs
 
 [Chains](https://docs.langchain.com/docs/components/chains/) is an incredibly generic concept which returns to a sequence of modular components (or other chains) combined in a particular way to accomplish a common use case.
 Applications provide the interfaces for interacting with [chains](https://docs.langchain.com/docs/components/chains/) via HTTP requests.
@@ -124,7 +134,7 @@ POST /api/v1/pipelines/<name>/feedback ... Post feedback for the chain
 
 For more information, see [Developments](docs/developments.md).
 
-### Versioning and composability
+## Versioning and composability
 
 Pipelines, which is the definition of data flow, are versioned and immutable.
 LangApp compiles the code into a docker image and tag it with a version number.
@@ -133,13 +143,13 @@ deploying to the latest version, canary deployment, A/B testing, etc.
 
 Pipelines are defined in the YAML file to make it composable and reusable.
 
-### Import Jupyter Notebook to Pipeline
+## Import Jupyter Notebook to Pipeline
 
 You can import [Jupyter notebook](https://jupyter.org/) into a pipeline file.
 This is useful when you already have a working demo in [Google Colab](https://colab.research.google.com/),
 and want to deploy it to production.
 
-### Export Pipeline to Jupyter Notebook
+## Export Pipeline to Jupyter Notebook
 
 You can export a pipeline to a jupyter notebook.
 This is useful when you want to go back to the experimental and debugging phase to improve the pipeline.
@@ -148,7 +158,7 @@ for finding a potential optimization for your pipelines.
 
 Later, you can [import the notebook back to the pipeline file](#import-jupyter-notebook-to-pipeline) again.
 
-### BasePipeline
+## BasePipeline
 
 ```python
 class BasePipeline:
@@ -166,7 +176,7 @@ class BasePipeline:
         return outputs
 ```
 
-### Customize a pipeline
+## Customize a pipeline
 
 ```python
 class MyPipeline(BasePipeline):
@@ -181,16 +191,54 @@ class MyPipeline(BasePipeline):
         return outputs
 ```
 
-### Execute a pipeline
+## Execute a pipeline
 
 Execute a single pipeline:
 
 ```python
-pipeline = MyPipeline.new(...)
-result = pipeline.execute(inputs)
+# Create a pipeline instance
+pipeline = MyPipeline()
+
+# Execute a pipeline with a single input
+input = { "query" : "How are you?" }
+result = pipeline.execute(input)
+
+# Execute a pipeline with multiple input
+inputs = [{ "query" : "How are you?" }, { "query" : "Who are you?" }]
+for input in inputs:
+  result = pipeline.execute(input)
+  print(f"error: ", result['error'])
+  print(f"artifact: ", result['artifacts'])
+  print(f"output: ", result['artifacts'][0]['output'])
 ```
 
-### Downstream pipeline
+Async example:
+
+```python
+import asyncio
+
+async def execute_async(input):
+    # Your asynchronous code here
+    pipeline = MyPipeline()
+    result = pipeline.execute(input)
+    return result
+
+async def main():
+    # Create a list of pipelines
+    inputs = [{ "query" : "How are you?" }, { "query" : "Who are you?" }]
+    results = [execute_async(input) for input in inputs]
+
+    # Execute the pipelines concurrently
+    done, _ = await asyncio.wait(results)
+
+    # Get the results of the pipelines
+    results = [task.result() for task in done]
+    print(results)
+
+asyncio.run(main())
+```
+
+## Downstream pipeline
 
 You can pass the output generated in the upstream pipeline to a downstream pipeline and return the final result to the client.
 This is useful if you want to run multiple pipelines at once and combine the results or perform A/B testing for monitoring the difference of results.
@@ -218,7 +266,7 @@ pipeline_c.set_downstream_pipeline(pipeline_d, async=true)
 pipeline_a.execute(inputs)
 ```
 
-### Asynchronous pipeline
+## Asynchronous pipeline
 
 You can execute a pipeline asynchronously in a case it takes a long time to finish.
 Once the pipeline is enqueued, background worker executes the 
@@ -230,3 +278,130 @@ To illustrate:
 1. Once the background execution is finished, LangApp posts the result to the client.
 
 Even if the websocket is disconnected, the result is persisted in the database, therefore clients can fetch the response later.
+
+## Pipeline IDs
+
+When executing a pipeline, random SHA256 digests is assigned to each pipeline and [step](#pipeline-steps).
+
+```py
+# Create a pipeline instance
+pipeline = MyPipeline()
+
+# Random SHA256 digests. e.g. `961c78f0792aee239540c854f9dfad80ee0635df4dc31a8ed7323517e0558047`
+print(pipeline.id)
+
+# Retrieve artifact per step. It's sorted by execution order.
+for step in pipeline.steps:
+  # Random SHA256 digests. e.g. `35fee6e888d399f57dfb5f803554490bb8066387c10444e136105007738312d9`
+  print(step.id)
+```
+
+This later can be referenced in [pipeline artifacts](#pipeline-artifacts).
+
+## Pipeline Artifacts
+
+Pipeline Artifact is the output of a pipeline execution. It could contain multiple artifacts per step, such as:
+
+```py
+# Create a pipeline instance
+pipeline = MyPipeline()
+
+# Execute a pipeline
+input = {"query": "How are you?"}
+pipeline.run(input)
+
+# Retrieve artifact
+artifacts = pipeline.artifacts["langapp"]
+print(artifact["id"])              # ID of the pipeline.
+print(artifact["duration"])        # Duration of the step
+print(artifact["input"])           # Input of the step
+print(artifact["output"])          # Output of the step
+print(artifact["started_at"])      # When the step started
+print(artifact["ended_at"])        # When the step ended
+
+# Retrieve artifact per step. It's sorted by execution order.
+for step in pipeline.steps:
+  artifacts = step.artifacts["langapp"]
+  print(artifacts["id"])              # ID of the step.
+  print(artifacts["name"])            # Name of the step
+  print(artifacts["duration"])        # Duration of the step
+  print(artifacts["input"])           # Input of the step
+  print(artifacts["output"])          # Output of the step
+  print(artifacts["started_at"])      # When the step started
+  print(artifacts["ended_at"])        # When the step ended
+```
+
+### Artifacts directory
+
+Procuded artifacts by pipeline run are stored in the local directroy:
+
+```
+data/
+  pipelines/
+    <id>/
+      artifacts.json
+```
+
+### Add an artifact to a pipeline
+
+You can add a arbitrary/user-defined artifact to the pipeline or step, which is useful to store business logic specific information.
+
+```py
+# Create a pipeline instance
+pipeline = MyPipeline()
+
+# Run a pipeline
+pipeline.run({"query": "How are you?"})
+
+# Retrieve artifact
+artifacts = pipeline.artifacts["langapp"]
+print(artifact["id"])              # ID of the pipeline.
+print(artifact["duration"])        # Duration of the pipeline
+print(artifact["input"])           # Input of the pipeline
+print(artifact["output"])          # Output of the pipeline
+print(artifact["started_at"])      # When the pipeline started
+print(artifact["ended_at"])        # When the pipeline ended
+
+# Retrieve artifact per step. It's sorted by execution order.
+for step in pipeline.steps:
+  artifacts = step.artifacts["langapp"]
+  print(artifacts["id"])              # ID of the step.
+  print(artifacts["name"])            # Name of the step
+  print(artifacts["duration"])        # Duration of the step
+  print(artifacts["input"])           # Input of the step
+  print(artifacts["output"])          # Output of the step
+  print(artifacts["started_at"])      # When the step started
+  print(artifacts["ended_at"])        # When the step ended
+```
+
+Example of adding an artifact in a step:
+
+```python
+class MyPipeline(BasePipeline):
+    @pipeline.step
+    def parse_document(inputs):
+        # Your business logic
+        self.artifacts["foo1"] = "bar1"
+        step.artifacts["foo2"] = "bar2"
+        return outputs
+```
+
+```py
+# Create a pipeline instance
+pipeline = MyPipeline()
+
+# Run a pipeline
+pipeline.run({"query": "How are you?"})
+
+print(pipeline.artifacts["foo1"])                  # Output: "bar1"
+
+# Fetch a specific step from the pipeline
+step = next(step for step in pipeline.steps if step.name == "parse_document")
+
+print(step.artifacts["foo2"])                      # Output: "bar2"
+```
+
+## Pipeline Steps
+
+Pipeline Step is a data processing unit. Pipeline consists of multiple steps (which is reffered as [Chains](https://docs.langchain.com/docs/components/chains/) in LangChain).
+
